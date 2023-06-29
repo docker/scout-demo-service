@@ -27,6 +27,8 @@ public/css/main.css
 node_modules
 bower_components
 
+package-lock.json
+
 # Editors
 .idea
 .vscode
