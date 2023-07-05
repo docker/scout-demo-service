@@ -68,20 +68,21 @@ jobs:
           sbom: false
           provenance: false          
 
-#      - name: Compare to deployed image
-#        id: docker-scout-cves
-#        if: ${{ github.event_name != 'pull_request_target' }}
-#        uses: docker/scout-action@3227670e8a301f01dc387d9e007f37b9e784efab
-#        with:
-#          command: cves
-#          image: ${{ steps.meta.outputs.tags }}
-#          only-severities: critical,high
-#          summary: true
+      - name: Analyze for critical and high CVEs
+        id: docker-scout-cves
+        if: ${{ github.event_name != 'pull_request_target' }}
+        uses: docker/scout-action@0b60c4ffb87fb5161bd124bbfaf4d5c474217ceb
+        with:
+          command: cves
+          image: ${{ steps.meta.outputs.tags }}
+          only-severities: critical,high
+          exit-code: true          
+          summary: true
 
       - name: Compare to deployed image
         id: docker-scout-compare
         if: ${{ github.event_name == 'pull_request_target' }}
-        uses: docker/scout-action@3227670e8a301f01dc387d9e007f37b9e784efab
+        uses: docker/scout-action@0b60c4ffb87fb5161bd124bbfaf4d5c474217ceb
         with:
           command: compare
           image: ${{ steps.meta.outputs.tags }}
