@@ -64,7 +64,7 @@ jobs:
           push: false
           tags: ${{ steps.meta.outputs.tags }}
           labels: ${{ steps.meta.outputs.labels }}
-          #platforms: "linux/amd64,linux/arm64"
+          platforms: "linux/amd64,linux/arm64"
           sbom: false
           provenance: false          
 
@@ -76,6 +76,7 @@ jobs:
           command: cves
           image: ${{ steps.meta.outputs.tags }}
           sarif-file: sarif.output.json
+          platform: linux/arm64
           summary: true
       
       - name: Upload SARIF result
@@ -94,6 +95,7 @@ jobs:
           image: ${{ steps.meta.outputs.tags }}
           only-severities: critical,high
           to-stream: prod
-          exit-code: true
+          platform: linux/arm64          
+          exit-code: true       
           summary: true
 
