@@ -85,6 +85,7 @@ jobs:
           sarif-file: sarif.output.json
           platform: "linux/arm64"
           summary: true
+          namespace: christiandupuis299
       
       #- name: Upload SARIF result
       #  id: upload-sarif
@@ -105,4 +106,5 @@ jobs:
           platform: "linux/arm64"
           exit-code: true       
           summary: true
+          namespace: christiandupuis299
 
