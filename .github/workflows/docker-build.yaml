@@ -69,6 +69,12 @@ jobs:
           sbom: true
           provenance: true          
 
+      - name: Log into registry
+        uses: docker/login-action@v2.1.0
+        with:
+          username: christiandupuis299
+          password: ${{ secrets.HUB_PAT }}
+
       - name: Analyze for critical and high CVEs
         id: docker-scout-cves
         if: ${{ github.event_name != 'pull_request_target' }}
