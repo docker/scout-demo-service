@@ -8,7 +8,7 @@ on:
     branches: ["main"]
 
 env:
-  IMAGE_NAME: docker/scout-demo-service
+  IMAGE_NAME: demo.goharbor.io/cd/demo-service
   SHA: ${{ github.event.pull_request.head.sha || github.event.after }}
   DOCKERFILE_PATH: Dockerfile
 
@@ -28,8 +28,8 @@ jobs:
       - name: Log into registry
         uses: docker/login-action@v2.1.0
         with:
-          username: christiandupuis299
-          password: ${{ secrets.CDUPUIS_PAT }}
+          username: cd
+          password: ${{ secrets.HARBOR_PASSWORD }}
 
       - name: Extract Docker metadata
         id: meta
@@ -51,8 +51,8 @@ jobs:
           tags: ${{ steps.meta.outputs.tags }}
           labels: ${{ steps.meta.outputs.labels }}
           platforms: "linux/amd64,linux/arm64"
-          sbom: false
-          provenance: false
+          sbom: true
+          provenance: true
       
       - name: Build and push Docker image on PR
         id: build-and-push-pr
@@ -65,13 +65,13 @@ jobs:
           tags: ${{ steps.meta.outputs.tags }}
           labels: ${{ steps.meta.outputs.labels }}
           platforms: "linux/arm64"
-          sbom: false
-          provenance: false          
+          sbom: true
+          provenance: true          
 
       - name: Analyze for critical and high CVEs
         id: docker-scout-cves
         if: ${{ github.event_name != 'pull_request_target' }}
-        uses: docker/scout-action@788bd7991dd23939af62db37c4b77ec009021e17
+        uses: docker/scout-action@main
         with:
           command: cves
           image: ${{ steps.meta.outputs.tags }}
@@ -89,7 +89,7 @@ jobs:
       - name: Compare to deployed image
         id: docker-scout-compare
         if: ${{ github.event_name == 'pull_request_target' }}
-        uses: docker/scout-action@788bd7991dd23939af62db37c4b77ec009021e17
+        uses: docker/scout-action@main
         with:
           command: compare
           image: ${{ steps.meta.outputs.tags }}
