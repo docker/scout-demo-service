@@ -1,23 +1,20 @@
-FROM alpine:3.14@sha256:eb3e4e175ba6d212ba1d6e04fc0782916c08e1c9d7b45892e9796141b1d379ae
+FROM ubuntu:jammy
 
-ENV BLUEBIRD_WARNINGS=0 \
-  NODE_ENV=production \
-  NODE_NO_WARNINGS=1 \
-  NPM_CONFIG_LOGLEVEL=warn \
-  SUPPRESS_NO_CONFIG_WARNING=true
+RUN apt update
+RUN apt install -y nodejs npm
 
-RUN apk add --no-cache \
-  nodejs
+WORKDIR /usr/app
 
-COPY package.json ./
+RUN npm install left-pad
 
-RUN  apk add --no-cache npm \
- && npm i --no-optional \
- && npm cache clean --force \
- && apk del npm
- 
-COPY . /app
+ARG key
 
-CMD ["node","/app/app.js"]
+ENV PROVKEY=$key
 
-EXPOSE 3000
+COPY <<EOF /usr/app/code.js
+const leftPad = require('left-pad')
+
+console.log(leftPad('hello cross demo', 5))
+EOF
+
+CMD ["node", "code.js"]
