@@ -54,6 +54,8 @@ jobs:
           platforms: "linux/amd64,linux/arm64"
           sbom: true
           provenance: true
+          cache-from: type=gha
+          cache-to: type=gha,mode=max        
       
       - name: Build and push Docker image on PR
         id: build-and-push-pr
