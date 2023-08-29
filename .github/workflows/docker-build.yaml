@@ -11,7 +11,29 @@ env:
   IMAGE_NAME: docker/scout-demo-service
   SHA: ${{ github.event.pull_request.head.sha || github.event.after }}
   DOCKERFILE_PATH: Dockerfile
-
+- ad: Kurulum Node.js ortamı
+  kullanımlar: eylemler/setup-node@v3.8.1
+  ile:
+    # Npmrc'de her zaman kimlik doğrulamayı ayarlayın.
+    her zaman-auth: # isteğe bağlı, varsayılan değer yanlıştır
+    # Sürüm Kullanılacak sürümün özellikleri. Örnekler: 12.x, 10.15.1, >=10.15.0.
+    düğüm sürümü: # isteğe bağlı
+    # Kullanılacak sürümün sürüm spesifikasyonunu içeren dosya. Örnekler: .nvmrc, .node-version, .tool-versions.
+    düğüm sürümü dosyası: # isteğe bağlı
+    # Düğümün kullanacağı hedef mimari. Örnekler: x86, x64. Varsayılan olarak sistem mimarisini kullanacaktır.
+    mimari: # isteğe bağlı
+    # Eylemin, sürüm özelliklerini karşılayan mevcut en son sürümü kontrol etmesini istiyorsanız bu seçeneği ayarlayın.
+    en son kontrol: # isteğe bağlı
+    # Kimlik doğrulama için kurulacak isteğe bağlı kayıt defteri. Kayıt defterini proje düzeyinde bir .npmrc ve .yarnrc dosyasına ayarlayacak ve env.NODE_AUTH_TOKEN'den okunacak kimlik doğrulamasını ayarlayacaktır.
+    kayıt defteri URL'si: # isteğe bağlı
+    # Kapsamlı kayıtlara karşı kimlik doğrulama için isteğe bağlı kapsam. GitHub Paketleri kaydını (https://npm.pkg.github.com/) kullanırken depo sahibine başvurulacaktır.
+    kapsam: # isteğe bağlı
+    # Düğüm sürümlerinden düğüm dağıtımlarını almak için kullanılır. Bir varsayılan olduğundan, bu genellikle kullanıcı tarafından sağlanmaz. Bu eylemi github.com'da çalıştırırken varsayılan değer yeterlidir. GHES üzerinde çalışırken hız sınırlamasıyla karşılaşıyorsanız github.com için kişisel bir erişim belirteci iletebilirsiniz.
+    belirteç: # isteğe bağlı, varsayılan ${{ github.server_url == 'https://github.com' && github.token || '' }}
+    # Varsayılan dizinde önbelleğe almak için bir paket yöneticisi belirtmek için kullanılır. Desteklenen değerler: npm, iplik, pnpm.
+    önbellek: # isteğe bağlı
+    # Bir bağımlılık dosyasının yolunu belirtmek için kullanılır: package-lock.json, iplik.lock, vb. Birden fazla bağımlılığı önbelleğe almak için joker karakterleri veya dosya adları listesini destekler.
+    önbellek bağımlılığı yolu: # isteğe bağlı
 jobs:
   build:
     runs-on: ubuntu-latest
@@ -20,8 +42,8 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v3
         with:
-          ref: ${{ env.SHA }}
-
+          ref: ${{ 6bd71aa1d039 env.SHA }}
+6bd71aa1d039
       - name: Setup Docker buildx
         uses: docker/setup-buildx-action@v2.5.0
 
