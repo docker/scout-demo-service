@@ -71,7 +71,7 @@ jobs:
       - name: Analyze for critical and high CVEs
         id: docker-scout-cves
         if: ${{ github.event_name != 'pull_request_target' }}
-        uses: docker/scout-action@788bd7991dd23939af62db37c4b77ec009021e17
+        uses: docker/scout-action@main
         with:
           command: cves
           image: ${{ steps.meta.outputs.tags }}
@@ -89,7 +89,7 @@ jobs:
       - name: Compare to deployed image
         id: docker-scout-compare
         if: ${{ github.event_name == 'pull_request_target' }}
-        uses: docker/scout-action@788bd7991dd23939af62db37c4b77ec009021e17
+        uses: docker/scout-action@main
         with:
           command: compare
           image: ${{ steps.meta.outputs.tags }}
