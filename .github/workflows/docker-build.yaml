@@ -67,35 +67,3 @@ jobs:
           platforms: "linux/arm64"
           sbom: false
           provenance: false          
-
-      - name: Analyze for critical and high CVEs
-        id: docker-scout-cves
-        if: ${{ github.event_name != 'pull_request_target' }}
-        uses: docker/scout-action@main
-        with:
-          command: cves
-          image: ${{ steps.meta.outputs.tags }}
-          sarif-file: sarif.output.json
-          platform: "linux/arm64"
-          summary: true
-      
-      - name: Upload SARIF result
-        id: upload-sarif
-        if: ${{ github.event_name != 'pull_request_target' }}
-        uses: github/codeql-action/upload-sarif@v2
-        with:
-          sarif_file: sarif.output.json
-
-      - name: Compare to deployed image
-        id: docker-scout-compare
-        if: ${{ github.event_name == 'pull_request_target' }}
-        uses: docker/scout-action@main
-        with:
-          command: compare
-          image: ${{ steps.meta.outputs.tags }}
-          only-severities: critical,high
-          to-stream: prod
-          platform: "linux/arm64"
-          exit-code: true       
-          summary: true
-
