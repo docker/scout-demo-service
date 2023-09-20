@@ -11,7 +11,7 @@ on:
 env:
   # Use docker.io for Docker Hub if empty
   REGISTRY: docker.io
-  IMAGE_NAME: jasonschmidt617/docker-scout
+  IMAGE_NAME: demonstrationorg/docker-scout-act
   SHA: ${{ github.event.pull_request.head.sha || github.event.after }}
 
 jobs:
