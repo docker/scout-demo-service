@@ -24,7 +24,7 @@ $ vexctl create --author christian.dupuis@docker.com \
     --status not_affected \
     --vuln CVE-2022-24999 \
     --justification inline_mitigations_already_exist \
-    --file vex-cve-2022-24999.json
+    --file .vex/vex-cve-2022-24999.json
 ```
 
 ## Applying the VEX document with Docker Scout
