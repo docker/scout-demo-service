@@ -78,3 +78,16 @@ jobs:
           sarif-file: sarif.output.json
           platform: "linux/arm64"
           summary: true
+
+      - name: Compare
+        if: ${{ github.event_name == 'pull_request' }}
+        uses: docker/scout-action@v1
+        with:
+          command: compare
+          image: ${{ steps.meta.outputs.tags }}
+          to-env: production
+          platform: "linux/amd64"
+          ignore-unchanged: true
+          only-severities: critical,high
+          organization: ${{ env.DOCKER_ORG }}
+          exit-on: policy
