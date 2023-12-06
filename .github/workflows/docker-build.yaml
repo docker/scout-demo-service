@@ -79,6 +79,18 @@ jobs:
           platform: "linux/arm64"
           summary: true
 
+      - name: Policy to deployed image
+        if: ${{ github.event_name == 'pull_request_target' }}
+        uses: docker/scout-action@main
+        with:
+          command: policy
+          image: local://${{ steps.meta.outputs.tags }}
+          only-severities: critical,high
+          to-env: production
+          platform: "linux/amd64"       
+          summary: true
+          organization: ${{ env.DOCKER_ORG }}
+
       - name: Compare
         if: ${{ github.event_name == 'pull_request' }}
         uses: docker/scout-action@v1
