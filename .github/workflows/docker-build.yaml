@@ -86,7 +86,7 @@ jobs:
           command: policy
           image: local://${{ steps.meta.outputs.tags }}
           only-severities: critical,high
-          to-env: production
+          to-latest: true
           platform: "linux/amd64"       
           summary: true
           organization: ${{ env.DOCKER_ORG }}
@@ -97,7 +97,7 @@ jobs:
         with:
           command: compare
           image: ${{ steps.meta.outputs.tags }}
-          to-env: production
+          to-latest: true
           platform: "linux/amd64"
           ignore-unchanged: true
           only-severities: critical,high
