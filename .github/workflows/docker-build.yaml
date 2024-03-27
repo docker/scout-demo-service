@@ -68,6 +68,17 @@ jobs:
           sbom: false
           provenance: false          
 
+      - name: Create SBOM in SPDX format
+        id: docker-scout-sbom
+        if: ${{ github.event_name == 'pull_request_target' }}
+        uses: docker/scout-action@v1
+        with:
+          command: sbom
+          image: ${{ steps.meta.outputs.tags }}
+          output: sbom.spdx.json
+          format: spdx
+          platform: "linux/arm64"
+          
       - name: Analyze for critical and high CVEs
         id: docker-scout-cves
         if: ${{ github.event_name != 'pull_request_target' }}
