@@ -1,4 +1,4 @@
-FROM alpine:3.14@sha256:eb3e4e175ba6d212ba1d6e04fc0782916c08e1c9d7b45892e9796141b1d379ae
+FROM alpine:3.20
 
 ENV BLUEBIRD_WARNINGS=0 \
   NODE_ENV=production \
@@ -11,8 +11,8 @@ RUN apk add --no-cache \
 
 COPY package.json ./
 
-RUN  apk add --no-cache npm \
- && npm i --no-optional \
+RUN apk add --no-cache npm \
+ && npm install \
  && npm cache clean --force \
  && apk del npm
  
